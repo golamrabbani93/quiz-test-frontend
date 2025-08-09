@@ -1,6 +1,8 @@
+import {zodResolver} from '@hookform/resolvers/zod';
 import QuizForm from '../../components/form/QuizFrom';
 import QuizInput from '../../components/form/QuizInput';
 import type {FieldValues} from 'react-hook-form';
+import {loginSchema} from '../../schemas/loginschemas';
 
 const Login = () => {
 	const handleLogin = (data: FieldValues) => {
@@ -10,7 +12,7 @@ const Login = () => {
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 ">
 			<div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-				<QuizForm onSubmit={handleLogin} defaultValues={{email: '', password: ''}}>
+				<QuizForm onSubmit={handleLogin} resolver={zodResolver(loginSchema)}>
 					<h2 className="text-3xl font-bold mb-6 text-indigo-700 text-center">Login</h2>
 					<QuizInput type="email" name="email" label="Email" placeholder="Enter your email" />
 					<QuizInput
@@ -19,8 +21,11 @@ const Login = () => {
 						label="Password"
 						placeholder="Enter your password"
 					/>
-					<div className="flex items-center justify-between -mt-6 mb-3">
-						<a href="/forgot-password" className="text-indigo-700 font-semibold hover:underline">
+					<div className=" -mt-6 mb-3">
+						<a
+							href="/forgot-password"
+							className="text-indigo-700 font-semibold hover:underline flex justify-end"
+						>
 							Forgot Password?
 						</a>
 					</div>
