@@ -9,8 +9,10 @@ import verifyToken from '../../utils/verifyToken';
 import {useAppDispatch} from '../../redux/hooks';
 import {setUser} from '../../redux/features/auth/authSlice';
 import type {TResponse} from '../../types/global';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
+	const navigate = useNavigate();
 	const [login] = useLoginMutation();
 	const dispatch = useAppDispatch();
 	const handleLogin = async (data: FieldValues) => {
@@ -30,6 +32,11 @@ const Login = () => {
 					role: decoded.role,
 				};
 				dispatch(setUser({user, token}));
+				//navigate role based route
+				navigate(
+					user?.role === 'admin' ? '/admin' : user?.role === 'supervisor' ? '/supervisor' : '/',
+					{replace: true},
+				);
 			}
 		} catch {
 			toast.error('Login failed', {id: toastId, duration: 2000});
