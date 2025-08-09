@@ -5,6 +5,7 @@ import ProtectedRoute from './ProtectedRoute';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import routesGenerator from '../utils/routesGenerator';
 import {adminPath} from './adminRoutes';
+import {studentPath} from './studentRoutes';
 
 const router = createBrowserRouter([
 	{
@@ -23,6 +24,15 @@ const router = createBrowserRouter([
 			</ProtectedRoute>
 		),
 		children: routesGenerator(adminPath),
+	},
+	{
+		path: '/student',
+		element: (
+			<ProtectedRoute role="student">
+				<DashboardLayout />
+			</ProtectedRoute>
+		),
+		children: routesGenerator(studentPath),
 	},
 ]);
 

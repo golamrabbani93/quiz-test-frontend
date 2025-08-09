@@ -34,7 +34,11 @@ const Login = () => {
 				dispatch(setUser({user, token}));
 				//navigate role based route
 				navigate(
-					user?.role === 'admin' ? '/admin' : user?.role === 'supervisor' ? '/supervisor' : '/',
+					user?.role === 'admin'
+						? '/admin'
+						: user?.role === 'supervisor'
+						? '/supervisor'
+						: '/student',
 					{replace: true},
 				);
 			}
