@@ -33,14 +33,7 @@ const Login = () => {
 				};
 				dispatch(setUser({user, token}));
 				//navigate role based route
-				navigate(
-					user?.role === 'admin'
-						? '/admin'
-						: user?.role === 'supervisor'
-						? '/supervisor'
-						: '/student',
-					{replace: true},
-				);
+				navigate(`/${user.role}/dashboard`);
 			}
 		} catch {
 			toast.error('Login failed', {id: toastId, duration: 2000});
@@ -52,7 +45,7 @@ const Login = () => {
 			<div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
 				<QuizForm
 					onSubmit={handleLogin}
-					defaultValues={{email: 'devrabbani9@gmail.com', password: 'password123'}}
+					defaultValues={{email: 'devrabbani9-istiyak@gmail.com', password: 'password123'}}
 					resolver={zodResolver(loginSchema)}
 				>
 					<h2 className="text-3xl font-bold mb-6 text-indigo-700 text-center">Login</h2>

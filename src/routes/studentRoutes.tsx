@@ -1,4 +1,5 @@
 import Student from '../pages/Dashboard/Student/Student';
+import Test from '../pages/Dashboard/Student/Test/Test';
 
 export const studentPath = [
 	{
@@ -7,12 +8,12 @@ export const studentPath = [
 		element: <Student />,
 	},
 	{
-		name: 'User Management',
+		name: 'Test Management',
 		children: [
 			{
-				name: 'User List',
-				path: 'user-list',
-				element: <>user</>,
+				name: 'Start Test',
+				path: 'start-test',
+				element: <Test />,
 			},
 		],
 	},

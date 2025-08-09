@@ -1,4 +1,5 @@
 import Admin from '../pages/Dashboard/Admin/Admin';
+import AllUser from '../pages/Dashboard/Admin/AllUser/AllUser';
 
 export const adminPath = [
 	{
@@ -12,7 +13,7 @@ export const adminPath = [
 			{
 				name: 'User List',
 				path: 'user-list',
-				element: <>user</>,
+				element: <AllUser />,
 			},
 		],
 	},

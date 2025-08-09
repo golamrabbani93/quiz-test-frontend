@@ -1,17 +1,35 @@
 import {Menu} from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import {Link} from 'react-router-dom';
-import {UploadOutlined, UserOutlined, VideoCameraOutlined} from '@ant-design/icons';
-import React from 'react';
-
+import {useAppSelector} from '../../redux/hooks';
+import {getCurrentUser} from '../../redux/features/auth/authSlice';
+import sidebarGenerator from '../../utils/sidebarGenerator';
+import {adminPath} from '../../routes/adminRoutes';
+import {studentPath} from '../../routes/studentRoutes';
+import type {MenuItemType} from '../../types/route';
+const userRole = {
+	ADMIN: 'admin',
+	SUPERVISOR: 'supervisor',
+	STUDENT: 'student',
+};
 const DashboardSidebar = () => {
-	const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-		(icon, index) => ({
-			key: String(index + 1),
-			icon: React.createElement(icon),
-			label: `nav ${index + 1}`,
-		}),
-	);
+	const user = useAppSelector(getCurrentUser);
+
+	let sidebarItems;
+	switch (user!.role) {
+		// case userRole.SUPERVISOR:
+		// 	sidebarItems = sidebarGenerator(supervisorPaths, userRole.SUPERVISOR);
+		// 	break;
+		case userRole.ADMIN:
+			sidebarItems = sidebarGenerator(adminPath, userRole.ADMIN);
+			break;
+		case userRole.STUDENT:
+			sidebarItems = sidebarGenerator(studentPath, userRole.STUDENT);
+			break;
+
+		default:
+			break;
+	}
 	return (
 		<Sider
 			breakpoint="lg"
@@ -36,7 +54,12 @@ const DashboardSidebar = () => {
 			>
 				<Link to="/">EForgeIT</Link>
 			</div>
-			<Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+			<Menu
+				theme="dark"
+				mode="inline"
+				defaultSelectedKeys={['4']}
+				items={sidebarItems as MenuItemType[]}
+			/>
 		</Sider>
 	);
 };
