@@ -1,5 +1,11 @@
+import Quiz from '../../../../components/ui/Quiz/Quiz';
+
 const Test = () => {
-	return <div>This is Test component</div>;
+	return (
+		<>
+			<Quiz />
+		</>
+	);
 };
 
 export default Test;
