@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 const Welcome = () => {
 	return (
 		<div className="min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600 flex flex-col justify-center items-center px-6">
@@ -9,27 +11,18 @@ const Welcome = () => {
 				your journey today!
 			</p>
 			<div className="flex flex-col sm:flex-row gap-4">
-				<button
-					type="button"
-					className="bg-white text-indigo-700 font-semibold py-3 px-8 rounded-md shadow-md hover:bg-indigo-100 transition"
-					onClick={() => alert('Start Test clicked')}
-				>
-					Start Test
-				</button>
-				<button
-					type="button"
+				<Link
+					to="/login"
 					className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-md hover:bg-white hover:text-indigo-700 transition"
-					onClick={() => alert('Login clicked')}
 				>
 					Login
-				</button>
-				<button
-					type="button"
+				</Link>
+				<Link
+					to="/register"
 					className="bg-indigo-700 text-white font-semibold py-3 px-8 rounded-md shadow-md hover:bg-indigo-800 transition"
-					onClick={() => alert('Register clicked')}
 				>
 					Register
-				</button>
+				</Link>
 			</div>
 		</div>
 	);
