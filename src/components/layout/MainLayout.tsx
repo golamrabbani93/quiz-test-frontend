@@ -1,5 +1,11 @@
+import Home from '../../pages/Home/Home';
+
 const MainLayout = () => {
-	return <div>This is mainLayout component</div>;
+	return (
+		<div>
+			<Home />
+		</div>
+	);
 };
 
 export default MainLayout;
