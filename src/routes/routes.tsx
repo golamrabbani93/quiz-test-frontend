@@ -8,8 +8,6 @@ import {adminPath} from './adminRoutes';
 import {studentPath} from './studentRoutes';
 import Register from '../pages/Register/Register';
 
-import VerifyOtp from '../pages/OTP/VerifyOtp';
-
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -22,10 +20,6 @@ const router = createBrowserRouter([
 	{
 		path: '/register',
 		element: <Register />,
-	},
-	{
-		path: '/otp-verification',
-		element: <VerifyOtp />,
 	},
 	{
 		path: '/admin',

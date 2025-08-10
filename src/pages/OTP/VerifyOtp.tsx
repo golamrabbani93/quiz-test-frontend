@@ -1,20 +1,59 @@
 import {useState} from 'react';
 import OtpInput from '../../components/ui/OtpInput/OtpInput';
+import {useSendOtpMutation, useVerifyOtpMutation} from '../../redux/features/otp/otpApi';
+import type {TResponse} from '../../types/global';
+import {toast} from 'sonner';
+import {useNavigate} from 'react-router-dom';
+import {useAppSelector} from '../../redux/hooks';
+import {getCurrentUser} from '../../redux/features/auth/authSlice';
 
 const VerifyOtp = () => {
 	const [otp, setOtp] = useState('');
 	const [showOtpInput, setShowOtpInput] = useState(false);
 	const [timer, setTimer] = useState(0);
 	const [first, setFirst] = useState(true);
+	const [mutate] = useSendOtpMutation();
+	const [verify] = useVerifyOtpMutation();
+	//get email from query params
+	const user = useAppSelector(getCurrentUser);
+	const navigate = useNavigate();
 	const sendOtp = async () => {
-		console.log('object');
 		startCountdown();
 		setShowOtpInput(true);
 		setFirst(false);
+		const toastId = toast.loading('Sending OTP...');
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const res = (await mutate({email: user?.email})) as TResponse<any>;
+
+			if (res.error) {
+				toast.error(res?.error?.data?.message, {id: toastId, duration: 2000});
+			} else {
+				toast.success('OTP sent successfully', {id: toastId, duration: 2000});
+			}
+		} catch {
+			toast.error('Failed to send OTP', {id: toastId, duration: 2000});
+		}
+	};
+	const verifyOTP = async () => {
+		const toastId = toast.loading('Verifying OTP...');
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const res = (await verify({email: user?.email, otp: otp})) as TResponse<any>;
+
+			if (res.error) {
+				toast.error(res?.error?.data?.message, {id: toastId, duration: 2000});
+			} else {
+				toast.success('OTP verified successfully', {id: toastId, duration: 3000});
+				navigate(`/dashboard/${user?.role}`);
+			}
+		} catch {
+			toast.error('Failed to verify OTP', {id: toastId, duration: 2000});
+		}
 	};
 
 	const startCountdown = () => {
-		let sec = 10;
+		let sec = 90;
 		const interval = setInterval(() => {
 			sec--;
 			setTimer(sec);
@@ -43,6 +82,7 @@ const VerifyOtp = () => {
 					<button
 						className="bg-green-500 text-white px-4 py-2 rounded-md mt-4 disabled:opacity-50 cursor-pointer"
 						disabled={otp.length !== 6}
+						onClick={verifyOTP}
 					>
 						Verify OTP
 					</button>
@@ -50,6 +90,13 @@ const VerifyOtp = () => {
 					{/* Resend OTP */}
 					<p className="mt-2 text-gray-600">Resend in {timer} seconds</p>
 				</>
+			)}
+			{/* Notify we sent the OTP */}
+			{showOtpInput && (
+				<p className="mt-2 text-gray-600">
+					OTP sent to {''}
+					<span className="font-semibold">{user?.email}</span>
+				</p>
 			)}
 		</div>
 	);

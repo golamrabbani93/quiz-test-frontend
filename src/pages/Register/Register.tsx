@@ -7,9 +7,11 @@ import {registerSchema} from '../../schemas/registerShcemas';
 import {toast} from 'sonner';
 import {useRegisterMutation} from '../../redux/features/auth/authApi';
 import type {TResponse} from '../../types/global';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Register = () => {
 	const [register] = useRegisterMutation();
+	const navigate = useNavigate();
 	const handleRegister = async (data: FieldValues) => {
 		const toastId = toast.loading('Registering...');
 		try {
@@ -19,6 +21,7 @@ const Register = () => {
 			if (res.error) {
 				toast.error(res?.error?.data?.message, {id: toastId, duration: 2000});
 			} else {
+				navigate(`/login`);
 				toast.success('Registered Successfully', {id: toastId, duration: 2000});
 			}
 		} catch {
@@ -58,9 +61,9 @@ const Register = () => {
 					</button>
 					<p className="mt-4 text-center text-gray-600">
 						Already have an account?{' '}
-						<a href="/login" className="text-indigo-700 font-semibold hover:underline">
+						<Link to="/login" className="text-indigo-700 font-semibold hover:underline">
 							Login
-						</a>
+						</Link>
 					</p>
 				</QuizForm>
 			</div>

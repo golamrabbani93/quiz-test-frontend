@@ -9,7 +9,7 @@ import verifyToken from '../../utils/verifyToken';
 import {useAppDispatch} from '../../redux/hooks';
 import {setUser} from '../../redux/features/auth/authSlice';
 import type {TResponse} from '../../types/global';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Login = () => {
 			<div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
 				<QuizForm
 					onSubmit={handleLogin}
-					defaultValues={{email: 'devrabbani9-istiyak@gmail.com', password: 'password123'}}
+					defaultValues={{email: 'golamrabbani7235@gmail.com', password: '123456'}}
 					resolver={zodResolver(loginSchema)}
 				>
 					<h2 className="text-3xl font-bold mb-6 text-indigo-700 text-center">Login</h2>
@@ -72,9 +72,9 @@ const Login = () => {
 					</button>
 					<p className="mt-4 text-center text-gray-600">
 						Create New Account{' '}
-						<a href="/register" className="text-indigo-700 font-semibold hover:underline">
+						<Link to="/register" className="text-indigo-700 font-semibold hover:underline">
 							Register
-						</a>
+						</Link>
 					</p>
 				</QuizForm>
 			</div>
