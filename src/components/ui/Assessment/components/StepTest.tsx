@@ -89,12 +89,12 @@ const StepTest: React.FC<StepTestProps> = ({step, questions: data, onComplete}) 
 			<div className="bg-white shadow rounded p-4 my-6">
 				<div className="mb-2">
 					<span className="inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-semibold">
-						Level: {questions[currentIndex].level}
+						Level: {questions[currentIndex]?.level}
 					</span>
 				</div>
-				<h2 className="font-bold text-xl mb-4">{questions[currentIndex].questionText}</h2>
+				<h2 className="font-bold text-xl mb-4">{questions[currentIndex]?.questionText}</h2>
 				<div className="space-y-2">
-					{questions[currentIndex].options.map((opt, idx) => (
+					{questions[currentIndex]?.options.map((opt, idx) => (
 						<label
 							key={idx}
 							className={`block p-3 border rounded cursor-pointer ${
