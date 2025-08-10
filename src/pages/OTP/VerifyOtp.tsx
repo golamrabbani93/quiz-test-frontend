@@ -45,7 +45,7 @@ const VerifyOtp = () => {
 				toast.error(res?.error?.data?.message, {id: toastId, duration: 2000});
 			} else {
 				toast.success('OTP verified successfully', {id: toastId, duration: 3000});
-				navigate(`/dashboard/${user?.role}`);
+				navigate(`/${user?.role}/dashboard`);
 			}
 		} catch {
 			toast.error('Failed to verify OTP', {id: toastId, duration: 2000});
