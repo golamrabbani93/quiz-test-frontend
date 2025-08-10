@@ -6,7 +6,7 @@ import {logout, setUser} from '../auth/authSlice';
 import {toast} from 'sonner';
 
 export const axiosInstance = axios.create({
-	baseURL: 'http://localhost:5000/api',
+	baseURL: import.meta.env.VITE_API_URL,
 	withCredentials: true, // to send cookies for refresh-token call
 });
 
