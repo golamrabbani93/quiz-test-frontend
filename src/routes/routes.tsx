@@ -6,6 +6,7 @@ import DashboardLayout from '../components/layout/DashboardLayout';
 import routesGenerator from '../utils/routesGenerator';
 import {adminPath} from './adminRoutes';
 import {studentPath} from './studentRoutes';
+import Register from '../pages/Register/Register';
 
 const router = createBrowserRouter([
 	{
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
 	{
 		path: '/login',
 		element: <Login />,
+	},
+	{
+		path: '/register',
+		element: <Register />,
 	},
 	{
 		path: '/admin',
