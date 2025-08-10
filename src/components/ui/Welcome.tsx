@@ -22,7 +22,7 @@ const Welcome = () => {
 				{user?.role ? (
 					<>
 						<Link
-							to={`/${user?.role}`}
+							to={`/${user?.role}/dashboard`}
 							className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-md hover:bg-white hover:text-indigo-700 transition"
 						>
 							Go to Dashboard
