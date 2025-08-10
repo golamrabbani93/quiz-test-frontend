@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
+import assessmentReducer from './features/assessment/assessmentSlice';
 import storage from 'redux-persist/lib/storage';
 import {
 	persistStore,
@@ -13,18 +14,23 @@ import {
 } from 'redux-persist';
 import {setupListeners} from '@reduxjs/toolkit/query';
 import {baseApi} from './features/api/baseApi';
-const persistConfig = {
-	key: 'root',
+const authPersistConfig = {
+	key: 'auth',
 	storage,
 };
-// Persist only authApi reducer's cache is not recommended; better to persist separate auth slice if you have one
-// But RTK Query cache is ephemeral, so usually no persist for RTK Query slices
 
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const assessmentPersistConfig = {
+	key: 'assessment',
+	storage,
+};
+
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedAssessmentReducer = persistReducer(assessmentPersistConfig, assessmentReducer);
 
 export const store = configureStore({
 	reducer: {
 		auth: persistedAuthReducer,
+		assessment: persistedAssessmentReducer,
 		[baseApi.reducerPath]: baseApi.reducer,
 	},
 	middleware: (getDefaultMiddlewares) =>
