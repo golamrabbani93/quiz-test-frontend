@@ -3,6 +3,7 @@ import type {AxiosRequestConfig} from 'axios';
 import type {BaseQueryFn} from '@reduxjs/toolkit/query';
 import type {RootState} from '../../store';
 import {logout, setUser} from '../auth/authSlice';
+import {toast} from 'sonner';
 
 export const axiosInstance = axios.create({
 	baseURL: 'http://localhost:5000/api',
@@ -40,7 +41,7 @@ export const customBaseQueryWithRefreshToken: BaseQueryFn<Args, unknown, unknown
 	} catch (error) {
 		const err = error as AxiosError;
 
-		if (err.response?.status === 401) {
+		if (err.response?.status === 500 || err.response?.status === 401) {
 			// Try refresh token
 			try {
 				const refreshResponse = await axiosInstance.post('/auth/refresh-token', null, {
@@ -71,6 +72,7 @@ export const customBaseQueryWithRefreshToken: BaseQueryFn<Args, unknown, unknown
 				}
 			} catch {
 				api.dispatch(logout());
+				toast.error('Session expired. Please log in again.');
 				return {error: {status: 401, data: 'Unauthorized'}};
 			}
 		}
