@@ -1,5 +1,11 @@
+import CertificateGenerator from '../../../../components/ui/Certificate/Certificate';
+
 const Certificate = () => {
-	return <div>This is Certificate component</div>;
+	return (
+		<>
+			<CertificateGenerator />
+		</>
+	);
 };
 
 export default Certificate;
