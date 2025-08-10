@@ -1,3 +1,4 @@
+import Certificate from '../pages/Dashboard/Student/Certificate/Certificate';
 import Student from '../pages/Dashboard/Student/Student';
 import Test from '../pages/Dashboard/Student/Test/Test';
 
@@ -7,14 +8,15 @@ export const studentPath = [
 		path: 'dashboard',
 		element: <Student />,
 	},
+
 	{
-		name: 'Test Management',
-		children: [
-			{
-				name: 'Start Test',
-				path: 'start-test',
-				element: <Test />,
-			},
-		],
+		name: 'Start Test',
+		path: 'start-test',
+		element: <Test />,
+	},
+	{
+		name: 'Certificate',
+		path: 'certificate',
+		element: <Certificate />,
 	},
 ];
