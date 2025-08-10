@@ -43,11 +43,7 @@ const Login = () => {
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 ">
 			<div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-				<QuizForm
-					onSubmit={handleLogin}
-					defaultValues={{email: 'golamrabbani7235@gmail.com', password: '123456'}}
-					resolver={zodResolver(loginSchema)}
-				>
+				<QuizForm onSubmit={handleLogin} resolver={zodResolver(loginSchema)}>
 					<h2 className="text-3xl font-bold mb-6 text-indigo-700 text-center">Login</h2>
 					<QuizInput type="email" name="email" label="Email" placeholder="Enter your email" />
 					<QuizInput
