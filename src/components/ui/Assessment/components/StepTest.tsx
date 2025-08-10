@@ -1,4 +1,3 @@
-// components/StepTest.tsx
 import React, {useEffect, useState} from 'react';
 import type {Question} from '../../../../types/assessment';
 import {useTimer} from '../../../../hooks/useTimer';
@@ -9,40 +8,53 @@ interface StepTestProps {
 	onComplete: (scorePercent: number) => void;
 }
 
-const StepTest: React.FC<StepTestProps> = ({step, questions, onComplete}) => {
-	const totalTime = 10;
-	console.log('🚀🚀 ~ StepTest ~ totalTime:', totalTime);
+const StepTest: React.FC<StepTestProps> = ({step, questions: data, onComplete}) => {
+	const questions = data;
+	const totalTime = questions.reduce((acc, q) => acc + q.time, 0);
+	// const totalTime = 10;
+	// console.log('🚀🚀 ~ StepTest ~ totalTime:', totalTime);
 
 	const [answers, setAnswers] = useState<{[id: string]: number}>({});
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [submitted, setSubmitted] = useState(false);
 
-	const {secondsLeft, setSecondsLeft} = useTimer(totalTime, () => {
-		handleSubmit();
-	});
+	const {secondsLeft, setSecondsLeft} = useTimer(totalTime);
+
+	useEffect(() => {
+		if (secondsLeft <= 0) {
+			handleSubmit();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [secondsLeft]);
 
 	// Reset question index and timer to 0 when step changes
 	useEffect(() => {
 		setCurrentIndex(0);
 		setSecondsLeft(totalTime);
+		setSubmitted(false);
 	}, [step, totalTime, setSecondsLeft]);
 
 	const handleOptionSelect = (optionIndex: number) => {
+		if (submitted) return;
 		setAnswers({...answers, [questions[currentIndex]._id]: optionIndex});
 	};
 
 	const handleNext = () => {
+		if (submitted) return;
 		if (currentIndex < questions.length - 1) {
 			setCurrentIndex(currentIndex + 1);
 		}
 	};
 
 	const handlePrev = () => {
+		if (submitted) return;
 		if (currentIndex > 0) {
 			setCurrentIndex(currentIndex - 1);
 		}
 	};
 
 	const handleSubmit = () => {
+		if (submitted) return;
 		let correct = 0;
 		questions.forEach((q) => {
 			if (answers[q._id] === q.correctOptionIndex) {
@@ -50,7 +62,8 @@ const StepTest: React.FC<StepTestProps> = ({step, questions, onComplete}) => {
 			}
 		});
 		const scorePercent = (correct / questions.length) * 100;
-		onComplete(scorePercent);
+		setSubmitted(true);
+		onComplete(Number(scorePercent.toFixed(2))); // Pass score as a percentage
 	};
 
 	const progress = ((currentIndex + 1) / questions.length) * 100;
@@ -108,17 +121,25 @@ const StepTest: React.FC<StepTestProps> = ({step, questions, onComplete}) => {
 			<div className="flex justify-between">
 				<button
 					onClick={handlePrev}
-					disabled={currentIndex === 0}
-					className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+					disabled={currentIndex === 0 || submitted}
+					className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
 				>
 					Prev
 				</button>
 				{currentIndex === questions.length - 1 ? (
-					<button onClick={handleSubmit} className="px-4 py-2 bg-indigo-600 text-white rounded">
+					<button
+						onClick={handleSubmit}
+						disabled={submitted}
+						className="px-4 py-2 bg-indigo-600 text-white rounded cursor-pointer"
+					>
 						Submit
 					</button>
 				) : (
-					<button onClick={handleNext} className="px-4 py-2 bg-indigo-600 text-white rounded">
+					<button
+						onClick={handleNext}
+						disabled={submitted}
+						className="px-4 py-2 bg-indigo-600 text-white rounded cursor-pointer"
+					>
 						Next
 					</button>
 				)}
