@@ -22,7 +22,8 @@ export const customBaseQueryWithRefreshToken: BaseQueryFn<Args, unknown, unknown
 	api,
 ) => {
 	const state = api.getState() as RootState;
-	const token = state.auth.token;
+	const authState = state.auth as RootState['auth'];
+	const token = authState.token;
 
 	try {
 		// Add Authorization header
