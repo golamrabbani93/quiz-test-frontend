@@ -4,10 +4,26 @@ import QuizInput from '../../components/form/QuizInput';
 import QuizSelect from '../../components/form/QuizSelect';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {registerSchema} from '../../schemas/registerShcemas';
+import {toast} from 'sonner';
+import {useRegisterMutation} from '../../redux/features/auth/authApi';
+import type {TResponse} from '../../types/global';
 
 const Register = () => {
-	const handleRegister = (data: FieldValues) => {
-		console.log('Registering user:', data);
+	const [register] = useRegisterMutation();
+	const handleRegister = async (data: FieldValues) => {
+		const toastId = toast.loading('Registering...');
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const res = (await register({...data, role: 'student'})) as TResponse<any>;
+
+			if (res.error) {
+				toast.error(res?.error?.data?.message, {id: toastId, duration: 2000});
+			} else {
+				toast.success('Registered Successfully', {id: toastId, duration: 2000});
+			}
+		} catch {
+			toast.error('Registration failed', {id: toastId, duration: 2000});
+		}
 	};
 
 	return (
@@ -18,7 +34,7 @@ const Register = () => {
 					defaultValues={{role: 'student'}}
 					resolver={zodResolver(registerSchema)}
 				>
-					<h2 className="text-3xl font-bold mb-6 text-indigo-700 text-center">Login</h2>
+					<h2 className="text-3xl font-bold mb-6 text-indigo-700 text-center">Register</h2>
 					<QuizInput type="name" name="name" label="Name" placeholder="Enter your name" />
 					<QuizInput type="email" name="email" label="Email" placeholder="Enter your email" />
 					<QuizSelect
