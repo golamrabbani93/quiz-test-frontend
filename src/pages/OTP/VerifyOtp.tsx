@@ -1,4 +1,3 @@
-// pages/VerifyOtp.tsx
 import {useState} from 'react';
 import OtpInput from '../../components/ui/OtpInput/OtpInput';
 

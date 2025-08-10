@@ -1,4 +1,3 @@
-// components/OtpInput.tsx
 import React, {useRef} from 'react';
 
 interface OtpInputProps {
