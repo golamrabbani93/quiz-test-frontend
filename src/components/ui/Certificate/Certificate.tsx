@@ -1,9 +1,21 @@
 import dayjs from 'dayjs';
 import {useAppSelector} from '../../../redux/hooks';
 import {getCurrentResult} from '../../../redux/features/assessment/assessmentSlice';
+import {useGetMyInfoQuery} from '../../../redux/features/user/userApi';
+import {Spin} from 'antd';
 
 export default function CertificateGenerator() {
+	const {data, isLoading} = useGetMyInfoQuery({});
+	console.log('🚀🚀 ~ CertificateGenerator ~ data:', data);
 	const results = useAppSelector(getCurrentResult);
+
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center min-h-screen">
+				<Spin size="default" />
+			</div>
+		);
+	}
 	// Check if certification is available
 	if (!results.certification) {
 		return (
@@ -45,7 +57,7 @@ export default function CertificateGenerator() {
 				</p>
 
 				{/* Name */}
-				<p className="text-center text-3xl font-bold text-gray-900 mb-6">'John Doe'</p>
+				<p className="text-center text-3xl font-bold text-gray-900 mb-6">{data?.name}</p>
 
 				{/* Achievement */}
 				<p className="text-center text-gray-700 mb-4 text-lg">
