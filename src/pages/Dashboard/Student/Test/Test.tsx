@@ -1,9 +1,9 @@
-import Quiz from '../../../../components/ui/Quiz/Quiz';
+import AssessmentFlow from '../../../../components/ui/Assessment/Assessment';
 
 const Test = () => {
 	return (
 		<>
-			<Quiz />
+			<AssessmentFlow></AssessmentFlow>
 		</>
 	);
 };
